@@ -73,5 +73,3 @@
 	Shout.trigger = Shout.yell;
 
 }).call(this);
-
-Shout.listen('fooo foo', function(){console.log('hay');});
