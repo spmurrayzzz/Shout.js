@@ -63,6 +63,12 @@
 				for (var i = sub.length - 1; i >= 0; i--)
 					sub[i]();
 			}
+		},
+
+		// Registers custom namespaces to existing methods
+		register: function(newNS, bindToNS){
+			if (Shout[bindToNS])
+				Shout[newNS] = Shout[bindToNS];
 		}
 
 	};
