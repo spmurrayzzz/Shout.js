@@ -52,16 +52,17 @@
 		},
 
 		// Triggers all callbacks associated with event(s)
-		yell: function(events){
+		yell: function(events, context){
 			var cbs, ev, sub;
 			if (!events) return;
 
 			events = events.split(_delim);
+			context = context || {};
 
 			while (ev = events.shift()) {
 				sub = _callbacks[ev];
 				for (var i = sub.length - 1; i >= 0; i--)
-					sub[i]();
+					sub[i](context);
 			}
 		},
 
