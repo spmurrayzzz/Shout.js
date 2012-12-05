@@ -16,10 +16,6 @@
 	// Regex for the event string delimiter
 	_delim = /\s+/,
 
-	_each = function(stuff, callback){
-
-	}
-
 	;
 
 	// Namespace our global and tack it on to `window`
