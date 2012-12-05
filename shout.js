@@ -14,9 +14,7 @@
 	var _callbacks,
 
 	// Regex for the event string delimiter
-	_delim = /\s+/,
-
-	;
+	_delim = /\s+/;
 
 	// Namespace our global and tack it on to `window`
 	var Shout = this.Shout = {
