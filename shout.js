@@ -55,8 +55,9 @@
 
 			while (ev = events.shift()) {
 				sub = _callbacks[ev];
-				for (var i = sub.length - 1; i >= 0; i--)
-					sub[i](context);
+				if (sub)
+					for (var i = sub.length - 1; i >= 0; i--)
+						sub[i](context);
 			}
 		},
 
