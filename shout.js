@@ -57,7 +57,7 @@
                 sub = _callbacks[ev];
                 if (sub)
                     for (var i = sub.length - 1; i >= 0; i--)
-                        sub[i](context);
+                        sub[i].call(context);
             }
         },
 
