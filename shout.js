@@ -31,7 +31,7 @@
             if (val === value) {
                 return true;
             }
-        };
+        }
     }
 
 
@@ -75,7 +75,7 @@
                         if (inArray(cb, handlers)) {
                             delete _callbacks[ev][i];
                         }
-                    };
+                    }
                 } else {
                     delete _callbacks[ev];
                 }
