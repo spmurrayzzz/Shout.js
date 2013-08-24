@@ -18,39 +18,61 @@
     // Regex for the event string delimiter
     _delim = /\s+/;
 
+
+    // Convenience function to get handlers from `arguments`
+    function getHandlers(arrArgs) {
+        return Array.prototype.slice.call(arrArgs, 1, arrArgs.length);
+    }
+
+    // Is `value` in the given `arr` array? Shallow comparison
+    function inArray(value, arr) {
+        for (var i = arr.length - 1; i >= 0; i--) {
+            var val = arr[i];
+            if (val === value) {
+                return true;
+            }
+        };
+    }
+
+
     // Namespace our global and tack it on to `window`
     var Shout = this.Shout = {
 
         // Binds event(s) to a given callback
         listen: function(events, callback){
-            var cbs, ev, sub;
+            var cbs, ev, sub, handlers;
             if (typeof events === 'undefined') {
                 return false;
             }
+
+            handlers = getHandlers(arguments);
 
             events = events.split(_delim);
             cbs = _callbacks || (_callbacks = {});
 
             while (ev = events.shift()) {
                 sub = cbs[ev] || (cbs[ev] = []);
-                sub.push(callback);
+                for (var i = 0; i < handlers.length; i++) {
+                    sub.push(handlers[i]);
+                }
             }
         },
 
         // Unbinds event(s)
         deaf: function(events, handle){
-            var cbs, ev, sub;
+            var cbs, ev, sub, handlers;
             if (typeof events === 'undefined') {
                 return false;
             }
 
+            handlers = getHandlers(arguments);
             events = events.split(_delim);
 
             while (ev = events.shift()) {
                 if (typeof handle !== 'undefined' ) {
                     for (var i = _callbacks[ev].length - 1; i >= 0; i--) {
                         var cb = _callbacks[ev][i];
-                        if (cb === handle) {
+                        if (inArray(cb, handlers)) {
                             delete _callbacks[ev][i];
                         }
                     };
@@ -90,6 +112,7 @@
         }
 
     };
+
 
     // Common pub/sub aliases
     Shout.on = Shout.bind = Shout.listen;
