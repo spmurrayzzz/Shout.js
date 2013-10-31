@@ -118,6 +118,6 @@
     // Common pub/sub aliases
     Shout.on = Shout.bind = Shout.listen;
     Shout.off = Shout.unbind = Shout.deaf;
-    Shout.trigger = Shout.shout = Shout.yell;
+    Shout.trigger = Shout.emit = Shout.shout = Shout.yell;
 
 }).call(this);
