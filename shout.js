@@ -61,7 +61,7 @@
 
         // Unbinds event(s)
         deaf: function(events, handle){
-            var cbs, ev, sub, handlers;
+            var cbs, ev, sub, handlers, retains = [];
             if (typeof events === 'undefined') {
                 return false;
             }
@@ -71,16 +71,16 @@
 
             while (ev = events.shift()) {
                 if (typeof handle !== 'undefined' ) {
+                    retains[ev] = retains[ev] || [];
                     for (var i = _callbacks[ev].length - 1; i >= 0; i--) {
                         var cb = _callbacks[ev][i];
-                        if (inArray(cb, handlers)) {
-                            delete _callbacks[ev][i];
+                        if (!inArray(cb, handlers)) {
+                            retains[ev].push(cb);
                         }
                     }
-                } else {
-                    delete _callbacks[ev];
                 }
             }
+            _callbacks = retains;
         },
 
         // Triggers all callbacks associated with event(s)
