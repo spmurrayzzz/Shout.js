@@ -1,0 +1,25 @@
+{
+  "name": "Shout.js",
+  "version": "0.1.0",
+  "description": "A pub/sub thingamajig",
+  "main": "shout.js",
+  "scripts": {
+    "test": "foo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spmurrayzzz/Shout.js.git"
+  },
+  "author": "Stephen Murray",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "b9d3d23bc098d62d5b6d0f32957bd7a098a0c172",
+  "bugs": {
+    "url": "https://github.com/spmurrayzzz/Shout.js/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-qunit": "~0.3.0",
+    "grunt-contrib-jshint": "~0.7.2"
+  }
+}

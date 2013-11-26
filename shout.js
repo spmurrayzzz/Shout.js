@@ -1,7 +1,7 @@
 /*
  *  Shout.js
  *
- *  A quick and dirty pub/sub messaging plugin 
+ *  A quick and dirty pub/sub messaging plugin
  *  inspired by the Backbone.js events framework.
  *
  *  Author: Stephen Murray
@@ -11,7 +11,7 @@
 ;(function(){
 
     "use strict";
-    
+
     // Array of callbacks sorted by event keys
     var _callbacks,
 
@@ -40,7 +40,7 @@
     var Shout = this.Shout = {
 
         // Binds event(s) to a given callback
-        listen: function(events, callback){
+        listen: function(events){
             var cbs, ev, sub, handlers;
             if (typeof events === 'undefined') {
                 return false;
@@ -61,7 +61,7 @@
 
         // Unbinds event(s)
         deaf: function(events, handle){
-            var cbs, ev, sub, handlers, retains = [];
+            var ev, handlers, retains = [];
             if (typeof events === 'undefined') {
                 return false;
             }
@@ -85,7 +85,7 @@
 
         // Triggers all callbacks associated with event(s)
         yell: function(events, context){
-            var cbs, ev, sub;
+            var ev, sub;
             if (typeof events === 'undefined') {
                 return false;
             }
