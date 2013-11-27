@@ -4,7 +4,7 @@
   "description": "A pub/sub thingamajig",
   "main": "shout.js",
   "scripts": {
-    "test": "foo"
+    "test": "grunt qunit"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   "author": "Stephen Murray",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "b9d3d23bc098d62d5b6d0f32957bd7a098a0c172",
   "bugs": {
     "url": "https://github.com/spmurrayzzz/Shout.js/issues"
   },
