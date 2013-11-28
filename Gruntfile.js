@@ -24,14 +24,27 @@ module.exports = function(grunt) {
       shout: {
         src: 'shout.js'
       }
+    },
+    qunit: {
+      options: {
+        '--web-security': 'no',
+        coverage: {
+          src: ['shout.js'],
+          instrumentedFiles: 'temp/',
+          htmlReport: 'report/coverage',
+          coberturaReport: 'report/',
+          linesThresholdPct: 85
+        }
+      },
+      all: ['test/**/*.html']
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  // grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-qunit-istanbul');
 
   // Default task.
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'qunit']);
 
 };

@@ -1,8 +1,7 @@
 /*
  *  Shout.js
  *
- *  A quick and dirty pub/sub messaging plugin
- *  inspired by the Backbone.js events framework.
+ *  A quick and dirty pub/sub thingamajig
  *
  *  Author: Stephen Murray
  *  Shout.js may be freely distributed under the MIT license.
@@ -12,112 +11,82 @@
 
   "use strict";
 
-  // Array of callbacks sorted by event keys
-  var _callbacks,
+  var shout,
+    _cache = {},
+    _delim = /\s+/,
+    slice = Array.prototype.slice;
 
-  // Regex for the event string delimiter
-  _delim = /\s+/;
-
-
-  // Convenience function to get handlers from `arguments`
-  function getHandlers(arrArgs) {
-    return Array.prototype.slice.call(arrArgs, 1, arrArgs.length);
+  function getArgs( args ) {
+    return slice.call(args, 0);
   }
 
-  // Is `value` in the given `arr` array? Shallow comparison
-  function inArray(value, arr) {
-    for (var i = arr.length - 1; i >= 0; i--) {
-      var val = arr[i];
-      if (val === value) {
-        return true;
-      }
-    }
-    return false;
-  }
+  shout = this.shout = {
 
+    _cache: _cache,
 
-  // Namespace our global and tack it on to `window`
-  var Shout = this.Shout = {
+    on: function(){
+      var args = getArgs(arguments),
+        events = args[0].split(_delim),
+        handlers = slice.call(args, 1),
+        ev;
 
-    // Binds event(s) to a given callback
-    listen: function(events){
-      var cbs, ev, sub, handlers;
-      if (typeof events === 'undefined') {
-        return false;
-      }
-
-      handlers = getHandlers(arguments);
-
-      events = events.split(_delim);
-      cbs = _callbacks || (_callbacks = {});
-
-      while (ev = events.shift()) {
-        sub = cbs[ev] || (cbs[ev] = []);
-        for (var i = 0; i < handlers.length; i++) {
-          sub.push(handlers[i]);
+      while ( ev = events.shift() ) {
+        _cache[ev] = _cache[ev] || [];
+        for ( var i = 0; i < handlers.length; i++ ) {
+          _cache[ev].push(handlers[i]);
         }
       }
+
+      return this;
     },
 
-    // Unbinds event(s)
-    deaf: function(events, handle){
-      var ev, handlers, retains = [];
-      if (typeof events === 'undefined') {
-        return false;
-      }
+    off: function(){
+      var args = getArgs(arguments),
+        events = args[0].split(_delim),
+        ev,
+        retains = [],
+        handlers = slice.call(args, 1);
 
-      handlers = getHandlers(arguments);
-      events = events.split(_delim);
-
-      while (ev = events.shift()) {
-        if (typeof handle !== 'undefined' ) {
-          retains[ev] = retains[ev] || [];
-          for (var i = _callbacks[ev].length - 1; i >= 0; i--) {
-            var cb = _callbacks[ev][i];
-            if (!inArray(cb, handlers)) {
-              retains[ev].push(cb);
+      while ( ev = events.shift() ) {
+        _cache[ev] = _cache[ev] || [];
+        if ( handlers.length ) {
+          for ( var i = 0; i < _cache[ev].length; i++ ) {
+            for ( var j = 0; j < handlers.length; j++ ) {
+              if ( _cache[ev][i] !== handlers[j] ) {
+                retains.push(_cache[ev][i]);
+              }
             }
           }
+          _cache[ev] = retains;
+        } else {
+          delete _cache[ev];
         }
       }
-      _callbacks = retains;
+
+      return this;
+
     },
 
-    // Triggers all callbacks associated with event(s)
-    yell: function(events, context){
-      var ev, sub;
-      if (typeof events === 'undefined') {
-        return false;
-      }
+    emit: function(){
+      var args = getArgs(arguments),
+        events = args[0].split(_delim),
+        argsToPass = slice.call(args, 1),
+        ev,
+        handlers;
 
-      events = events.split(_delim);
-      context = context || {};
-
-      while (ev = events.shift()) {
-        sub = _callbacks[ev];
-        if (typeof sub !== 'undefined') {
-          for (var i = sub.length - 1; i >= 0; i--) {
-            if (typeof sub[i] !== 'undefined') {
-              sub[i].call(context);
-            }
-          }
+      while ( ev = events.shift() ) {
+        handlers = _cache[ev] || [];
+        for ( var i = 0; i < handlers.length; i++ ) {
+          handlers[i].apply(null, argsToPass);
         }
       }
-    },
 
-    // Registers custom namespaces to existing methods
-    register: function(newNS, bindToNS){
-      if (typeof Shout[bindToNS] !== 'undefined') {
-        Shout[newNS] = Shout[bindToNS];
-      }
+      return this;
+
     }
 
   };
 
-
-  // Common pub/sub aliases
-  Shout.on = Shout.bind = Shout.listen;
-  Shout.off = Shout.unbind = Shout.deaf;
-  Shout.trigger = Shout.emit = Shout.shout = Shout.yell;
+  shout.trigger = shout.fire = shout.emit;
 
 }).call(this);

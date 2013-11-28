@@ -1,6 +1,6 @@
 {
   "name": "Shout.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A pub/sub thingamajig",
   "main": "shout.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-qunit": "~0.3.0",
-    "grunt-contrib-jshint": "~0.7.2"
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-qunit-istanbul": "~0.3.0"
   }
 }
