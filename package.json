@@ -4,7 +4,7 @@
   "description": "A pub/sub thingamajig",
   "main": "shout.js",
   "scripts": {
-    "test": "grunt qunit"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
