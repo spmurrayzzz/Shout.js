@@ -7,43 +7,23 @@ Yet another pub/sub implementation.
 
 ## Usage
 
-To subscribe:
+##### shout.on( events, handler1[, handler2, ...] )
 
-```
-Shout.listen('foo', function(){ // Binds anonymous handler to event 'foo'
-	alert('bar');
+```javascript
+shout.on('whine', function( arg ) {
+  console.log('enough with the' + arg + 'already');
 });
 ```
 
-To publish:
+##### shout.emit( events[, arg1, arg2, ...] )
 
-```
-Shout.yell('foo'); // Triggers all handlers bound to 'foo'
-```
-
-To unsubscribe:
-
-```
-Shout.deaf('foo'); // Unbinds all handlers bound to 'foo'
+```javascript
+shout.emit('whine', 'Miley');
+// 'enough with the Miley already'
 ```
 
-Shout also supports unbinding specific handlers:
+##### shout.off( events[, handler1, handler2, ...] )
 
-```
-var dothis = function(){
-    console.log('this');
-};
-
-var dothat = function(){
-    console.log('that');
-};
-
-Shout.on('foo', dothis);
-Shout.on('foo', dothat);
-
-Shout.yell('foo'); // Logs 'that' and 'this'
-
-Shout.off('foo', dothis);
-Shout.yell('foo'); // Logs 'that'
-
+```javascript
+shout.off('whine');
 ```
