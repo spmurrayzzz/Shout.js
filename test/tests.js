@@ -10,6 +10,24 @@ test('single event on', 1, function(){
   shout.off('foo');
 });
 
+test('single event w/ args', 2, function(){
+  var test = false;
+  shout.on('foo', function( arg ) {
+    test = arg;
+  });
+  shout.emit('foo', true);
+  equal(test, true, 'Should pass argument via emit.');
+  shout.off('foo');
+
+  test = false;
+  shout.on('foo', function( arg1, arg2 ){
+    test = arg1 + arg2;
+  });
+  shout.emit('foo', 1, 2);
+  equal(test, 3, 'Should pass multiple arguments via emit');
+  shout.off('foo');
+});
+
 test('single event off', 1, function(){
   var test = false;
   shout.on('foo', function(){
@@ -55,10 +73,19 @@ test('bind/unbind specific handlers', 2, function(){
   shout.off('foo');
 });
 
+test('emit multiple events w/ args', 1, function(){
+  var test = 0;
+  shout.on('foo bar', function( arg ){
+    test += arg;
+  });
+  shout.emit('foo bar', 1);
+  equal(test, 2, 'Should emit multiple events w/ arguments');
+  shout.off('foo bar');
+});
+
 test('chainability', 3, function(){
   equal(shout.on('foo'), shout, '`on` should return instance.');
   equal(shout.off('bar'), shout, '`off` should return instance.');
   equal(shout.emit('baz'), shout, '`emit` should return instance.');
   shout.off('foo');
 });
-
