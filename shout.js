@@ -22,8 +22,6 @@
 
   shout = this.shout = {
 
-    _cache: _cache,
-
     on: function(){
       var args = getArgs(arguments),
         events = args[0].split(_delim),
