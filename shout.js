@@ -62,7 +62,6 @@
       }
 
       return this;
-
     },
 
     emit: function(){
@@ -80,7 +79,6 @@
       }
 
       return this;
-
     }
 
   };
