@@ -1,9 +1,9 @@
 Shout.js
 ========
 
-Yet another pub/sub implementation.
-
 [![Build Status](https://travis-ci.org/spmurrayzzz/Shout.js.png?branch=master)](https://travis-ci.org/spmurrayzzz/Shout.js)
+
+Yet another pub/sub implementation.
 
 ## Usage
 
