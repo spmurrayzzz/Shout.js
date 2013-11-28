@@ -27,3 +27,20 @@ shout.emit('whine', 'Miley');
 ```javascript
 shout.off('whine');
 ```
+
+## To contribute
+
+- Get set up
+
+```bash
+npm install -g grunt-cli
+npm install
+```
+
+- Run the lint/test suite
+
+```bash
+grunt
+```
+
+- Submit a pull request!
