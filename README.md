@@ -7,25 +7,29 @@ Yet another pub/sub implementation.
 
 ## Usage
 
-##### shout.on( events, handler1[, handler2, ...] )
+```javascript
+var vent = new Shout();
+```
+
+##### Shout.prototype.on( events, handler1[, handler2, ...] )
 
 ```javascript
-shout.on('whine', function( arg ) {
+vent.on('whine', function( arg ) {
   console.log('enough with the' + arg + 'already');
 });
 ```
 
-##### shout.emit( events[, arg1, arg2, ...] )
+##### Shout.prototype.emit( events[, arg1, arg2, ...] )
 
 ```javascript
-shout.emit('whine', 'Miley');
+vent.emit('whine', 'Miley');
 // 'enough with the Miley already'
 ```
 
-##### shout.off( events[, handler1, handler2, ...] )
+##### Shout.prototype.off( events[, handler1, handler2, ...] )
 
 ```javascript
-shout.off('whine');
+vent.off('whine');
 ```
 
 ## To contribute
