@@ -20,11 +20,15 @@
     return slice.call(args, 0);
   }
 
+  function splitEvents( events ) {
+    return events.split(_delim);
+  }
+
   shout = this.shout = {
 
     on: function(){
       var args = getArgs(arguments),
-        events = args[0].split(_delim),
+        events = splitEvents(args[0]),
         handlers = slice.call(args, 1),
         ev;
 
@@ -40,7 +44,7 @@
 
     off: function(){
       var args = getArgs(arguments),
-        events = args[0].split(_delim),
+        events = splitEvents(args[0]),
         ev,
         retains = [],
         handlers = slice.call(args, 1);
@@ -66,7 +70,7 @@
 
     emit: function(){
       var args = getArgs(arguments),
-        events = args[0].split(_delim),
+        events = splitEvents(args[0]),
         argsToPass = slice.call(args, 1),
         ev,
         handlers;
