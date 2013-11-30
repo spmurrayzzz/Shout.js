@@ -11,7 +11,7 @@ Yet another pub/sub implementation.
 var vent = new Shout();
 ```
 
-##### Shout.on( events, handler1[, handler2, ...] )
+##### Shout.prototype.on( events, handler1[, handler2, ...] )
 
 ```javascript
 vent.on('whine', function( arg ) {
@@ -19,14 +19,14 @@ vent.on('whine', function( arg ) {
 });
 ```
 
-##### Shout.emit( events[, arg1, arg2, ...] )
+##### Shout.prototype.emit( events[, arg1, arg2, ...] )
 
 ```javascript
 vent.emit('whine', 'Miley');
 // 'enough with the Miley already'
 ```
 
-##### Shout.off( events[, handler1, handler2, ...] )
+##### Shout.prototype.off( events[, handler1, handler2, ...] )
 
 ```javascript
 vent.off('whine');
