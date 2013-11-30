@@ -101,4 +101,17 @@
     shout.off('foo');
   });
 
+  test('verify no leaks from OOP implementation', 1, function(){
+    var vent = new Shout(),
+      count = 0;
+    shout.on('foo', function(){
+      count++;
+    });
+    vent.on('foo', function(){
+      count++;
+    });
+    shout.emit('foo');
+    equal(count, 1, 'Objects should be atomic.');
+  });
+
 })();
