@@ -21,7 +21,7 @@
     shout.off('foo');
   });
 
-  test('single event w/ args', 2, function(){
+  test('single event w/ args', 4, function(){
     var test = false;
     shout.on('foo', function( arg ) {
       test = arg;
@@ -36,6 +36,22 @@
     });
     shout.emit('foo', 1, 2);
     equal(test, 3, 'Should pass multiple arguments via emit');
+    shout.off('foo');
+
+    test = false;
+    shout.on('foo', function( arg1, arg2, arg3 ){
+      test = arg1 + arg2 + arg3;
+    });
+    shout.emit('foo', 1, 2, 3);
+    equal(test, 6, 'Should pass multiple arguments via emit');
+    shout.off('foo');
+
+    test = false;
+    shout.on('foo', function( arg1, arg2, arg3, arg4 ){
+      test = arg1 + arg2 + arg3 + arg4;
+    });
+    shout.emit('foo', 1, 2, 3, 4);
+    equal(test, 10, 'Should pass multiple arguments via emit');
     shout.off('foo');
   });
 
