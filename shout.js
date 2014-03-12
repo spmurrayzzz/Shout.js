@@ -101,21 +101,21 @@
         handlers = this._cache[ev] || [];
         for ( var i = 0; i < handlers.length; i++ ) {
           switch ( argsToPass.length ) {
-                case 0:
-                    handlers[i]();
-                    break;
-                case 1:
-                    handlers[i](argsToPass[0]);
-                    break;
-                case 2:
-                    handlers[i](argsToPass[0], argsToPass[1]);
-                    break;
-                case 3:
-                    handlers[i](argsToPass[0], argsToPass[1], argsToPass[2]);
-                    break;
-                default:
-                    handlers[i].apply(null, argsToPass);
-                    break;
+            case 0:
+              handlers[i]();
+              break;
+            case 1:
+              handlers[i](argsToPass[0]);
+              break;
+            case 2:
+              handlers[i](argsToPass[0], argsToPass[1]);
+              break;
+            case 3:
+              handlers[i](argsToPass[0], argsToPass[1], argsToPass[2]);
+              break;
+            default:
+              handlers[i].apply(null, argsToPass);
+              break;
           }
         }
       }
