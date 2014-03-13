@@ -1,0 +1,10 @@
+{
+  "name": "Shout.js",
+  "version": "0.2.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "report",
+    "test"
+  ]
+}
