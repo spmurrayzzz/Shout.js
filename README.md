@@ -5,6 +5,12 @@ Shout.js
 
 Yet another pub/sub implementation.
 
+## To install via Bower
+
+```bash
+bower install shout
+```
+
 ## Usage
 
 ```javascript
