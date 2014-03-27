@@ -36,6 +36,8 @@
   // Instance methods
   Shout.prototype = {
 
+    constructor: Shout,
+
     /**
      * Bind event(s) to handlers
      * @return {self}

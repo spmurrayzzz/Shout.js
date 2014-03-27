@@ -130,4 +130,8 @@
     equal(count, 1, 'Objects should be atomic.');
   });
 
+  test('ensure constructor is correct', 1, function(){
+    equal(shout.constructor, Shout, '`shout` instance constructor should be `Shout`.');
+  });
+
 })();
