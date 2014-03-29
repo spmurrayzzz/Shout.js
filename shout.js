@@ -24,7 +24,11 @@
   }
 
   function splitEvents( events ) {
-    return events.split(_delim);
+    if ( _delim.test(events) ) {
+      return events.split(_delim);
+    } else {
+      return [events];
+    }
   }
 
 
@@ -95,9 +99,15 @@
     emit: function(){
       var args = getArgs(arguments),
         events = splitEvents(args[0]),
-        argsToPass = slice.call(args, 1),
+        argsToPass = [],
         ev,
         handlers;
+
+      if ( args.length > 2 ) {
+        argsToPass = slice.call(args, 1);
+      } else if ( args.length === 2) {
+        argsToPass = [args[1]];
+      }
 
       while ( ev = events.shift() ) {
         handlers = this._cache[ev] || [];
