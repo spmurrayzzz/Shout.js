@@ -10,7 +10,7 @@
 var Shout,
   module = module || { exports: true };
 
-Shout = (function(){
+module.exports = Shout = (function(){
 
   "use strict";
 
@@ -143,7 +143,3 @@ Shout = (function(){
   return Shout;
 
 }).call(this);
-
-if ( typeof module !== 'undefined' && module.exports ) {
-  module.exports = Shout;
-}
