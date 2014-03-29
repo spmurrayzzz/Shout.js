@@ -8,7 +8,7 @@
  */
 
 var Shout,
-  module = module || { exports: true };
+  module = module || {};
 
 module.exports = Shout = (function(){
 
