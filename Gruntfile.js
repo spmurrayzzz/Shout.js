@@ -18,7 +18,8 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         globals: {
-          jQuery: true
+          module: true,
+          window: true
         }
       },
       shout: {
@@ -37,14 +38,21 @@ module.exports = function(grunt) {
         }
       },
       all: ['test/**/*.html']
+    },
+    benchmark: {
+      all: {
+        src: ['benchmarks/*.js'],
+        dest: 'benchmarks/results.csv'
+      }
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-qunit-istanbul');
+  grunt.loadNpmTasks('grunt-benchmark');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'qunit']);
+  grunt.registerTask('default', ['jshint', 'qunit', 'benchmark']);
 
 };

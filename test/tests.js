@@ -1,3 +1,5 @@
+var module;
+
 ;(function(){
 
   var shout;
@@ -133,5 +135,9 @@
   test('ensure constructor is correct', 1, function(){
     equal(shout.constructor, Shout, '`shout` instance constructor should be `Shout`.');
   });
+
+  // test('verify module integrity', 1, function(){
+
+  // });
 
 })();

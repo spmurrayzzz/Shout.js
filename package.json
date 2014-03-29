@@ -22,6 +22,7 @@
     "grunt-cli": "~0.1.9",
     "grunt-contrib-qunit": "~0.3.0",
     "grunt-contrib-jshint": "~0.7.2",
-    "grunt-qunit-istanbul": "~0.3.0"
+    "grunt-qunit-istanbul": "~0.3.0",
+    "grunt-benchmark": "^0.2.0"
   }
 }

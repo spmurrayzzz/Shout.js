@@ -7,7 +7,10 @@
  *  Shout.js may be freely distributed under the MIT license.
  */
 
-;(function(){
+var Shout,
+  module = module || { exports: true };
+
+Shout = (function(){
 
   "use strict";
 
@@ -137,6 +140,11 @@
 
   };
 
-  this.Shout = Shout;
+  return Shout;
 
 }).call(this);
+
+if ( typeof module !== 'undefined' && module.exports ) {
+  module.exports = Shout;
+}
+
