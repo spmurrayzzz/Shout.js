@@ -7,10 +7,9 @@
  *  Shout.js may be freely distributed under the MIT license.
  */
 
-var Shout,
-  module = module || {};
+var Shout;
 
-module.exports = Shout = (function(){
+Shout = (function(){
 
   "use strict";
 
@@ -143,3 +142,10 @@ module.exports = Shout = (function(){
   return Shout;
 
 }).call(this);
+
+if ( typeof exports !== 'undefined' ) {
+  if ( typeof module !== 'undefined' && module.exports ) {
+    exports = module.exports = Shout;
+  }
+  exports.Shout = Shout;
+}
