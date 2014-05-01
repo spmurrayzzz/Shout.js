@@ -43,7 +43,7 @@ vent.off('whine');
 - Get set up
 
 ```bash
-npm install -g grunt-cli
+sudo npm install -g grunt-cli
 npm install
 ```
 
