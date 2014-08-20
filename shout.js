@@ -16,7 +16,9 @@ Shout = (function(){
   // Event string delimiter (spaces)
   var _delim = /\s+/,
   // Convenience for slice cuz, yknow laziness
-    slice = Array.prototype.slice;
+    slice = Array.prototype.slice,
+
+    _eventNameCache = {};
 
 
   // Utility functions
@@ -26,10 +28,16 @@ Shout = (function(){
   }
 
   function splitEvents( events ) {
+    if ( _eventNameCache[events] !== undefined ) {
+        return _eventNameCache[events];
+    }
+
     if ( _delim.test(events) ) {
-      return events.split(_delim);
+      _eventNameCache[events] = events.split(_delim);
+      return _eventNameCache[events];
     } else {
-      return [events];
+      _eventNameCache[events] = [events];
+      return _eventNameCache[events];
     }
   }
 
@@ -49,12 +57,14 @@ Shout = (function(){
      * @return {self}
      */
     on: function(){
-      var args = getArgs(arguments),
+      var args = Array.prototype.slice.call(arguments),
         events = splitEvents(args[0]),
         handlers = slice.call(args, 1),
+        e,
         ev;
 
-      while ( ev = events.shift() ) {
+      for (e = 0; e < events.length; e++) {
+        ev = events[e];
         this._cache[ev] = this._cache[ev] || [];
         for ( var i = 0; i < handlers.length; i++ ) {
           this._cache[ev].push(handlers[i]);
@@ -72,10 +82,12 @@ Shout = (function(){
       var args = getArgs(arguments),
         events = splitEvents(args[0]),
         ev,
+        e,
         retains = [],
         handlers = slice.call(args, 1);
 
-      while ( ev = events.shift() ) {
+      for (e = 0; e < events.length; e++) {
+        ev = events[e];
         this._cache[ev] = this._cache[ev] || [];
         if ( handlers.length ) {
           for ( var i = 0; i < this._cache[ev].length; i++ ) {
@@ -99,19 +111,18 @@ Shout = (function(){
      * @return {self}
      */
     emit: function(){
-      var args = getArgs(arguments),
+      var args = Array.prototype.slice.call(arguments),
         events = splitEvents(args[0]),
-        argsToPass = [],
+        argsToPass,
+        e,
         ev,
         handlers;
 
-      if ( args.length > 2 ) {
-        argsToPass = slice.call(args, 1);
-      } else if ( args.length === 2) {
-        argsToPass = [args[1]];
-      }
+      args.splice(0, 1);
+      argsToPass = args;
 
-      while ( ev = events.shift() ) {
+      for (e = 0; e < events.length; e++) {
+        ev = events[e];
         handlers = this._cache[ev] || [];
         for ( var i = 0; i < handlers.length; i++ ) {
           switch ( argsToPass.length ) {
