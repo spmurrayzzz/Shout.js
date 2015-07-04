@@ -143,4 +143,22 @@
     equal(count, 1, 'handler should only fire once');
   });
 
+  test('handlers bound with once() for multiple events should only fire once', 1, function(){
+    var count = 0;
+    shout.once('foo bar', function(){
+      count++;
+    });
+    shout.emit('foo').emit('bar');
+    equal(count, 1, 'handler should only fire once');
+  });
+
+  test('handlers bound with once() for multiple events should fire for any event', 1, function(){
+    var count = 0;
+    shout.once('foo bar baz', function(){
+      count++;
+    });
+    shout.emit('baz');
+    equal(count, 1, 'handler should only fire once');
+  });
+
 })();
