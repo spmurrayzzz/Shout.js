@@ -7,14 +7,13 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     jshint: loadConfig('jshint'),
-    qunit: loadConfig('qunit'),
-    benchmark: loadConfig('benchmark')
+    qunit: loadConfig('qunit')
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-qunit-istanbul');
   grunt.loadNpmTasks('grunt-benchmark');
 
-  grunt.registerTask('default', ['jshint', 'qunit', 'benchmark']);
+  grunt.registerTask('default', ['jshint', 'qunit']);
 
 };

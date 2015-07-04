@@ -1,15 +1,13 @@
 /*
  *  Shout.js
  *
- *  A quick and dirty pub/sub thingamajig
+ *  A quick and dirty pub/sub thingamajig for the browser.
  *
  *  Author: Stephen Murray
  *  Shout.js may be freely distributed under the MIT license.
  */
 
-var Shout;
-
-Shout = (function(){
+;(function(){
 
   "use strict";
 
@@ -147,17 +145,24 @@ Shout = (function(){
       }
 
       return this;
+    },
+
+    once: function( events, callback, ctx ) {
+      var self = this,
+        wrap;
+
+      wrap = function() {
+        callback.apply( ctx, arguments );
+        self.off( events, wrap );
+      };
+
+      return this.on( events, wrap );
     }
 
   };
 
+  this.Shout = Shout;
+
   return Shout;
 
-}).call(this);
-
-if ( typeof exports !== 'undefined' ) {
-  if ( typeof module !== 'undefined' && module.exports ) {
-    exports = module.exports = Shout;
-  }
-  exports.Shout = Shout;
-}
+}).call( this );

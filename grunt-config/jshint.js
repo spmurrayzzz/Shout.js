@@ -14,7 +14,8 @@ module.exports = {
     globals: {
       module: true,
       exports: true,
-      window: true
+      window: true,
+      Shout: true
     }
   },
   shout: {

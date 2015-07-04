@@ -134,4 +134,13 @@
     equal(shout.constructor, Shout, '`shout` instance constructor should be `Shout`.');
   });
 
+  test('handlers bound with once() should only fire once', 1, function(){
+    var count = 0;
+    shout.once('foo', function(){
+      count++;
+    });
+    shout.emit('foo').emit('foo');
+    equal(count, 1, 'handler should only fire once');
+  });
+
 })();
