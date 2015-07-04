@@ -38,6 +38,14 @@ vent.emit('whine', 'Miley');
 vent.off('whine');
 ```
 
+##### Shout.prototype.once( events, handler )
+
+```javascript
+vent.once('whine' function() {
+  console.log('This callback will only fire once.');
+});
+```
+
 ## To contribute
 
 - Get set up
