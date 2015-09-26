@@ -17,7 +17,7 @@ bower install shout
 var vent = new Shout();
 ```
 
-##### Shout.prototype.on( events, handler1[, handler2, ...] )
+##### Shout.prototype.on( events, handler )
 
 ```javascript
 vent.on('whine', function( arg ) {
@@ -32,7 +32,7 @@ vent.emit('whine', 'Miley');
 // 'enough with the Miley already'
 ```
 
-##### Shout.prototype.off( events[, handler1, handler2, ...] )
+##### Shout.prototype.off( events[, handler ] )
 
 ```javascript
 vent.off('whine');
