@@ -91,7 +91,8 @@
       count++;
     }
 
-    shout.on('foo', inc, incDeux);
+    shout.on('foo', inc);
+    shout.on('foo', incDeux);
     shout.emit('foo');
     equal(count, 2, 'Should fire both handlers.');
     shout.off('foo', inc);

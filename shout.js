@@ -11,19 +11,12 @@
 
   "use strict";
 
-  // Event string delimiter (spaces)
   var _delim = /\s+/,
-  // Convenience for slice cuz, yknow laziness
-    slice = Array.prototype.slice,
+    handlerCache = {},
+    _eventNameCache = {},
+    empty = [],
+    globalId = 0;
 
-    _eventNameCache = {};
-
-
-  // Utility functions
-
-  function getArgs( args ) {
-    return slice.call( args, 0 );
-  }
 
   function splitEvents( events ) {
     if ( _eventNameCache[ events ] !== undefined ) {
@@ -39,126 +32,73 @@
     }
   }
 
-
-  // Primary constructor
   function Shout() {
-    this._cache = {};
+    var id = ++globalId;
+    Object.defineProperty( this, 'shoutId', {
+      get: function() {
+        return '#' + id;
+      },
+      writeable: false
+    });
+    handlerCache[ this.shoutId ] = {};
   }
 
-  // Instance methods
-  Shout.prototype = {
+  Shout.prototype.on = function( ev, fn ) {
+    var events = splitEvents( ev ),
+      cache = handlerCache[ this.shoutId ];
 
-    constructor: Shout,
+    events.forEach(function( ev ) {
+      ( cache[ ev ] || ( cache[ ev ] = [] ) ).push( fn );
+    });
 
-    /**
-     * Bind event(s) to handlers
-     * @return {self}
-     */
-    on: function(){
-      var args = Array.prototype.slice.call( arguments ),
-        events = splitEvents( args[ 0 ] ),
-        handlers = slice.call( args, 1 ),
-        e,
-        ev;
+    return this;
+  };
 
-      for ( e = 0; e < events.length; e++ ) {
-        ev = events[ e ];
-        this._cache[ ev ] = this._cache[ ev ] || [];
-        for ( var i = 0; i < handlers.length; i++ ) {
-          this._cache[ ev ].push( handlers[ i ] );
-        }
+  Shout.prototype.emit = function( ev ) {
+    var events = splitEvents( ev ),
+      args = Array.prototype.slice.call( arguments, 1 ),
+      cache = handlerCache[ this.shoutId ],
+      self = this;
+
+    events.forEach(function( ev ) {
+      ( cache[ ev ] || empty ).forEach(function( handler ) {
+        handler.apply( self, args );
+      });
+    });
+
+    return this;
+  };
+
+  Shout.prototype.off = function( ev, fn ) {
+    var events = splitEvents( ev ),
+      cache = handlerCache[ this.shoutId ];
+
+    events.forEach(function( ev ) {
+      var retains;
+
+      if ( typeof fn === 'function' && cache[ ev ] ) {
+        retains = cache[ ev ].filter(function( handler ) {
+          return handler !== fn;
+        });
+        cache[ ev ] = retains;
+      } else {
+        delete cache[ ev ];
       }
+    });
 
-      return this;
-    },
+    return this;
+  };
 
-    /**
-     * Unbind event(s)
-     * @return {self}
-     */
-    off: function(){
-      var args = getArgs( arguments ),
-        events = splitEvents( args[ 0 ] ),
-        ev,
-        e,
-        retains = [],
-        handlers = slice.call( args, 1 );
+  Shout.prototype.once = function( ev, fn ) {
+    var self = this,
+      wrap;
 
-      for ( e = 0; e < events.length; e++ ) {
-        ev = events[ e ];
-        this._cache[ ev ] = this._cache[ ev ] || [];
-        if ( handlers.length ) {
-          for ( var i = 0; i < this._cache[ ev ].length; i++ ) {
-            for ( var j = 0; j < handlers.length; j++ ) {
-              if ( this._cache[ ev ][ i ] !== handlers[ j ] ) {
-                retains.push( this._cache[ ev ][ i ] );
-              }
-            }
-          }
-          this._cache[ ev ] = retains;
-        } else {
-          delete this._cache[ ev ];
-        }
-      }
+    wrap = function() {
+      fn.apply( self, arguments );
+      self.off( ev, wrap );
+    };
 
-      return this;
-    },
-
-    /**
-     * Emit/trigger events
-     * @return {self}
-     */
-    emit: function(){
-      var args = Array.prototype.slice.call( arguments ),
-        events = splitEvents( args[ 0 ] ),
-        argsToPass,
-        e,
-        ev,
-        handlers;
-
-      args.splice( 0, 1 );
-      argsToPass = args;
-
-      for ( e = 0; e < events.length; e++) {
-        ev = events[ e ];
-        handlers = this._cache[ ev ] || [];
-        for ( var i = 0; i < handlers.length; i++ ) {
-          // call() is a bit faster than apply(), so optimize for it
-          switch ( argsToPass.length ) {
-            case 0:
-              handlers[ i ]();
-              break;
-            case 1:
-              handlers[ i ]( argsToPass[ 0 ] );
-              break;
-            case 2:
-              handlers[ i ]( argsToPass[ 0 ], argsToPass[ 1 ] );
-              break;
-            case 3:
-              handlers[ i ]( argsToPass[ 0 ], argsToPass[ 1 ], argsToPass[ 2 ] );
-              break;
-            default:
-              handlers[ i ].apply( null, argsToPass );
-              break;
-          }
-        }
-      }
-
-      return this;
-    },
-
-    once: function( events, callback, ctx ) {
-      var self = this,
-        wrap;
-
-      wrap = function() {
-        callback.apply( ctx, arguments );
-        self.off( events, wrap );
-      };
-
-      return this.on( events, wrap );
-    }
-
+    return this.on( ev, wrap );
   };
 
   this.Shout = Shout;
