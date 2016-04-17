@@ -56,9 +56,15 @@
 
   Shout.prototype.emit = function( ev ) {
     var events = splitEvents( ev ),
-      args = Array.prototype.slice.call( arguments, 1 ),
       cache = handlerCache[ this.shoutId ],
-      self = this;
+      self = this,
+      len = arguments.length,
+      args = [],
+      i;
+
+    for ( i = 1; i < len; i++ ) {
+      args.push( arguments[ i ] );
+    }
 
     events.forEach(function( ev ) {
       ( cache[ ev ] || empty ).forEach(function( handler ) {
